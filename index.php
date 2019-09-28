@@ -51,13 +51,13 @@
                                             <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
                                         </div>
                                         <div class="msg_cotainer">
-                                            Hi, how are you samim?
+                                            Hello, Kingsley?
                                             <span class="msg_time">8:40 AM, Today</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end mb-4">
                                         <div class="msg_cotainer_send">
-                                            Hi Maryam i am good tnx how about you?
+                                            Am good Lawrence the law, you?
                                             <span class="msg_time_send">8:55 AM, Today</span>
                                         </div>
                                         <div class="img_cont_msg">
@@ -188,6 +188,8 @@
         flex-direction: column;
         justify-content: space-between;
         z-index: 5;
+        background-color: rgba(24, 24, 180, 0.1);
+        
     }
     .top-bar{
         width: 100%;
