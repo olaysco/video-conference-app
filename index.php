@@ -154,7 +154,7 @@
         grid-template-columns: repeat(auto-fit, minmax(33.33%, 1fr));
     }
     .grid-element{
-        background-color: deepPink;
+        background-color:rgba(133, 133, 133, 0.7);
         color: #fff;
         border: 1px solid #fff;
         height: 100%;
