@@ -1,15 +1,36 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Login from "./views/Login.vue";
+import Register from "./views/Register.vue";
+import Screen from "./views/Screen.vue";
+import Host from "./views/Host.vue";
 
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "login",
+      component: Login
+    },
+    {
+      path: "/login",
+      component: Login
+    },
+    {
+      path: "/register",
+      component: Register
+    },
+    {
+      path: "/host",
+      component: Host
+    },
+    {
+      path: "/screen",
+      component: Screen
     },
     {
       path: "/about",
