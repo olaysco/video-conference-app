@@ -32,10 +32,10 @@
                 <li>
                   <i class="fa fa-cog faa-spin animated-hover"></i>
                 </li>
-                <li id="setup-new-room" @click="onJoin"><i class="fas fa-video"></i></li>
+                <li id="setup-new-room" ><i class="fas fa-video"></i></li>
                 <li><i class="fas fa-magic"></i></li>
                 <li><i class="fas fa-microphone-alt"></i></li>
-                <li id="end-call" @click="onLeave">
+                <li id="end-call" >
                   <i class="fas fa-phone"></i>
                 </li>
               </ul>
@@ -116,7 +116,7 @@
           </div>
         </div>
         <div class="grid-container" id="videos-container">
-          <vue-webrtc ref="webrtc"
+          <!-- <vue-webrtc ref="webrtc"
                       width="100%"
                       :roomId="roomId"
                       v-on:joined-room="logEvent"
@@ -124,7 +124,9 @@
                       v-on:open-room="logEvent"
                       v-on:share-started="logEvent"
                       v-on:share-stopped="logEvent"
-                      @error="onError" />
+                      @error="onError" /> -->
+            <videoChat>
+            </videoChat>
         </div>
       </div>
     </div>
@@ -134,9 +136,11 @@
 
 <script>
   import { WebRTC } from "vue-webrtc";
-export default {
+  import  videoChat  from "../components/video-chat";
+  export default {
   components:{
-    'vue-webrtc' : WebRTC
+    'vue-webrtc' : WebRTC,
+    'videoChat' : videoChat 
   },
   data() {
     return {
@@ -145,31 +149,7 @@ export default {
     };
   },
   methods : {
-    setUpRoom(){
-      window.captureUserMedia(function () {
-        conferenceUI.createRoom({
-            roomName: 'Anonymous'
-        });
-      });
-    },
-    onCapture() {
-        this.img = this.$refs.webrtc.capture();
-      },
-      onJoin() {
-        console.log(this.$refs.webrtc.join());
-      },
-      onLeave() {
-        this.$refs.webrtc.leave();
-      },
-      onShareScreen() {
-        this.img = this.$refs.webrtc.shareScreen();
-      },
-      onError(error, stream) {
-        console.log('On Error Event', error, stream);
-      },
-      logEvent(event) {
-        console.log('Event : ', event);
-      },
+    
   },
   created(){
     

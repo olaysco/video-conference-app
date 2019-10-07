@@ -12,6 +12,19 @@ Vue.config.productionTip = false;
 // Vue resource for http
 Vue.use(VueResource);
 
+// Socket config
+Vue.use(
+  new VueSocketIO({
+    debug: true,
+    connection: `http://localhost:3000`,
+    vuex: {
+      store,
+      actionPrefix: "SOCKET_",
+      mutationPrefix: "SOCKET_"
+    }
+  })
+);
+
 // Vuelidate for validation
 Vue.use(Vuelidate);
 
