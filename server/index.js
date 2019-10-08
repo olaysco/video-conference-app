@@ -22,12 +22,25 @@ io.sockets.on("connection", function(socket) {
     array.push.apply(array, arguments);
     socket.emit("log", array);
   }
+
   console.log("new connection");
+  socket.broadcast.emit("new coonect", "message");
+
+  io.sockets.emit(
+    "userJoined",
+    socket.id,
+    io.engine.clientsCount,
+    Object.keys(io.sockets.clients().sockets)
+  );
 
   socket.on("message", function(message) {
     log("Client said: ", message);
     // for a real app, would be room-only (not broadcast)
     socket.broadcast.emit("message", message);
+  });
+
+  socket.on("signal", (told, message) => {
+    io.to(told).emit("signal", socket.id, message);
   });
 
   socket.on("create or join", function(room) {
