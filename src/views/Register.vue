@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line -->
-<div class="container d-flex flex-row mt-4 pl-0 page-container">      
+<div class="container d-flex flex-row mt-4 page-container">      
     <div class="leftCon col-md-8 col-sm-12">
       <div
         class="logo col-md-12 col-sm-12 d-flex flex-row justify-content-center"
@@ -104,7 +104,7 @@
               <div 
                 class="invalid-feedback"
               >
-                Please provide a valid password
+                Password must be alphanumeric and min length is 7
               </div>
               <span class="d-flex flex-row mt-2 ml-4"
                 ><input type="checkbox" name="agree" style="margin-top: 6px" v-model="form.agree" />
@@ -128,13 +128,12 @@
         <button
           name="signup"
           class="btn btn-primary btn-block col-md-12 col-sm-12 submit bs-input"
-          style="background-color: #6C63FE; color: #FFF; border-radius: 20px;width: 300px "
+          style="color: #FFF; border-radius: 20px;width: 300px "
           @click="progressForm"
-          v-text="(showSecondForm)?'submit':'next'"
         >
-        {{(showSecondForm)?'submit':'next'}}
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.busy"></span>
-        <span v-if="form.busy">Loading...</span>
+        <span v-show="!form.busy">{{(showSecondForm)?'submit':'next'}}</span>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-show="form.busy"></span>
+        <span v-show="form.busy">Creating account...</span>
         </button>
       </div>
 
@@ -168,7 +167,7 @@
       </div>
     </div>
 
-    <div class="rightCon col-md-4 col-sm-12 d-flex align-items-center">
+    <div class="rightCon col-md-4 d-none d-md-flex align-items-center ">
       <div>
         <h4 class="text-light text-center mb-4">
           Your video conferencing Meetings reimagined!
@@ -220,6 +219,7 @@ export default {
       this.$v.form.$touch();
       if(this.$v.form.$error) return
       this.form.busy = true;
+      console.log(this.form.busy)
       this.$store.dispatch("togglePageBusy");
       this.$http.post('https://vidconf-api.herokuapp.com/user', this.form).then(response => {
         if(response.ok){

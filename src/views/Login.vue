@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line -->
-<div class="container d-flex flex-row mt-4 pl-0 page-container">      
+<div class="container d-flex flex-row mt-4 page-container">      
     <div class="leftCon col-md-8 col-sm-12">
       <div
         class="logo col-md-12 col-sm-12 d-flex flex-row justify-content-center"
@@ -28,39 +28,57 @@
         <div
           class="signUpForm w3-content col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center"
         >
-          <form id="book-form" class="mySlides">
+        <span v-if="loginError" class="text-danger mb-1">
+          Invalid Username or password, Please try again.
+        </span>
+          <form id="login-form" class="mySlides">
             <div class="form-group">
               <input
-                id="title"
-                type="text"
-                name="userName"
-                placeholder="Username"
+                id="username"
+                type="email"
+                name="email"
+                v-model.trim="$v.form.email.$model"
+                placeholder="Email"
                 class="form-control bs-input"
                 style="width: 300px; border-radius: 20px; padding: 20px;"
+                :class="{'is-invalid':$v.form.email.$error}"
               />
+              <div 
+                class="invalid-feedback"
+              >
+                Please provide a valid email 
+              </div>
             </div>
             <div class="form-group">
               <input
-                id="author"
-                type="text"
+                id="password"
+                type="password"
                 name="password"
+                v-model.trim="$v.form.password.$model"
                 placeholder="Password"
                 class="form-control bs-input"
                 style="width: 300px; border-radius: 20px; padding: 20px;"
+                :class="{'is-invalid':$v.form.password.$error}"
               />
+              <div 
+                class="invalid-feedback"
+              >
+                Please provide a password
+              </div>
             </div>
           </form>
         </div>
 
-        <input
-          id="enter"
-          type=""
-          value="Login"
+        <button
           name="signup"
           class="btn btn-primary btn-block col-md-12 col-sm-12 submit bs-input"
-          style="background-color: #6C63FE; color: #FFF; border-radius: 20px;width: 300px "
-          onclick=""
-        />
+          style="color: #FFF; border-radius: 20px;width: 300px "
+          @click="login"
+        >
+        <span v-show="!form.busy">Login</span> 
+        <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true" v-show="form.busy"></span>
+        <span v-show="form.busy">authenticating...</span>
+        </button>
       </div>
 
       <div class="headText col-sm-12 col-sm-12">
@@ -93,7 +111,7 @@
       </div>
     </div>
 
-    <div class="rightCon col-md-4 col-sm-12 d-flex align-items-center">
+    <div class="rightCon col-md-4 d-none d-md-flex align-items-center ">
       <div>
         <h4 class="text-light text-center mb-4">
           Your video conferencing Meetings reimagined!
@@ -104,6 +122,55 @@
   </div>
 </template>
 <script>
-export default {};
+import { required, minLength, between, email, alphaNum } from 'vuelidate/lib/validators';
+export default {
+  data(){
+    return {
+      form : {
+        email : '',
+        password : '',
+        busy : false,
+      },
+      loginError : false
+    }
+  },
+  validations: {
+     form : {
+       email: {
+        required,
+        email
+      },
+      password: {
+        required,
+      }
+     }
+  },
+  methods: {
+    async login(){
+      this.loginError = false;
+      this.$v.form.$touch();
+      if(this.$v.form.$error) return
+      this.form.busy = true;
+      this.$store.dispatch("togglePageBusy");
+      this.$http.post('https://vidconf-api.herokuapp.com/user/login', this.form).then(response => {
+        if(response.data.status != "Error"){
+          // this.$store.dispatch("setUser", response.data.data.user);
+          // this.$router.push({path:"host", query: {newuser: true}});
+          console.log(response.data);
+        }else{
+          this.loginError = true;
+        }
+      }).catch(e => {
+        console.log(e);
+      }).finally(e => {
+        this.form.busy = false;
+        this.$store.dispatch("togglePageBusy");
+      });
+      await setTimeout(()=>{
+        this.form.busy = false;
+      },3000);
+    }
+  }
+};
 </script>
 <style scoped></style>

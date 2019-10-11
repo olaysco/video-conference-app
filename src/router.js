@@ -5,6 +5,7 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Screen from "./views/Screen.vue";
 import Host from "./views/Host.vue";
+import Profile from "./views/Profile.vue";
 
 Vue.use(Router);
 
@@ -31,6 +32,10 @@ export default new Router({
     {
       path: "/screen",
       component: Screen
+    },
+    {
+      path: "/profile",
+      component: Profile
     },
     {
       path: "/about",

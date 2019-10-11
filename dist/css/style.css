@@ -295,7 +295,7 @@ body{
     background: #EFEFEF;;
   }
   .rightCon{
-    background: #14214A;
+    background: #132385;
   }
   
   .logo{
@@ -381,13 +381,13 @@ body{
     box-shadow: -1px 3px 6px 0px rgba(0,0,0,0.16);
   }
   .btn-primary{
-    background-color: #6C63FF;
+    background-color: #0089FD
     color: #fff;
-    border-color: #6C63FF;
+    border-color: #0089FD;
   }
   .btn-primary-inverse{
-    border-color: #6C63FE; 
-    color: #6C63FE;
+    border-color: #0089FD; 
+    color: #0089FD;
     background-color: #fff;
   }
   .page-container{
