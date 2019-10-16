@@ -2,6 +2,7 @@
 
 const config = require("./config");
 const https = require("https");
+const http = require("http");
 const express = require("express");
 require("mongoose").connect("mongodb://localhost/vdconf");
 var os = require("os");
@@ -125,7 +126,7 @@ app.get(/.*/, function(req, res) {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
-const server = https.createServer(serverOptions, app);
+const server = http.createServer(app);
 // io.attach(server);
 // io.sockets.on("connection", function(socket) {
 //   function log() {
