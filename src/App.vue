@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <router-view />
-    <div class="d-flex justify-content-center align-items-center loader" v-if="pageBusy">
+    <div
+      v-if="pageBusy"
+      class="d-flex justify-content-center align-items-center loader"
+    >
       <div class="spinner-grow" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -11,11 +14,11 @@
 <script>
 export default {
   computed: {
-    pageBusy(){
+    pageBusy() {
       return this.$store.state.pageBusy;
     }
   }
-}
+};
 </script>
 <style lang="scss">
 #nav {
@@ -28,15 +31,15 @@ export default {
     }
   }
 }
-.loader{
+.loader {
   position: fixed;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: #14214aba;
-    .spinner-grow{
-      height: 4rem;
-      width: 4rem;
-    }
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #14214aba;
+  .spinner-grow {
+    height: 4rem;
+    width: 4rem;
+  }
 }
 </style>

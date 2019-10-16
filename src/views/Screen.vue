@@ -1,18 +1,19 @@
 <template>
   <!-- eslint-disable-next-line -->
     <div class="container-fluid">
+      <tooltip/>
     <div class="row">
       <div class="col-md-12 h-100v p-0">
         <div class="top-element">
           <div class="top-bar">
-            <div class="user-avatar">
+            <!--<div class="user-avatar">
               <img
                 src="../assets/female.jpg"
                 alt="user-avatar"
                 class="user-avatar-img"
               />
             </div>
-            <div class="input-group border rounded-pill p-1 custom-search">
+             <div class="input-group border rounded-pill p-1 custom-search">
               <div class="input-group-prepend border-0">
                 <button id="button-addon4" type="button" class="btn btn-link">
                   <i class="fa fa-search"></i>
@@ -24,23 +25,36 @@
                 aria-describedby="button-addon4"
                 class="form-control bg-none border-0"
               />
-            </div>
-          </div>
-          <div class="bottom-bar">
+            </div>  -->
             <div class="controls">
               <ul class="control-list">
-                <li>
+                <li  v-popover:tooltip="'Settings'">
                   <i class="fa fa-cog faa-spin animated-hover"></i>
                 </li>
-                <li id="setup-new-room" ><i class="fas fa-video"></i></li>
-                <li><i class="fas fa-magic"></i></li>
-                <li><i class="fas fa-microphone-alt"></i></li>
-                <li id="end-call" >
-                  <i class="fas fa-phone"></i>
+                <li id="setup-new-room" v-popover:tooltip="'start call'">
+                  <button class="btn" @click="initVideo" :disabled="isConfStarted"><i class="fas fa-video"></i></button>
+                </li>
+                <li id="end-call" v-popover:tooltip="'End call'"  tabindex="0">
+                  <button class="btn" @click="disconnect" style="pointer-events: none;" :disabled="!isConfStarted"><i class="fas fa-phone"></i></button>
+                </li>
+                <li v-popover:tooltip="'apply filter'"><i class="fas fa-magic"></i></li>
+                <li v-popover:tooltip="'Mute or Unmute mic'">
+                  <button class="btn" @click="muteLocalTrack" ><i :class="{'fas fa-microphone-alt-slash':isMuted, 'fas fa-microphone-alt':!isMuted}"></i></button>
                 </li>
               </ul>
             </div>
-            <div class="side-chat d-none d-md-block" :class="{ 'body-open': chatShow }">
+          </div>
+          <div class="bottom-bar">
+            <div class="track-list" @click="setMainTrack">
+             
+              <!-- <div class="track" v-for="(item,i) in trackList" :key="i" :id="item.id">
+
+              </div> -->
+            </div>
+            <!-- <div
+              class="side-chat d-none d-md-block"
+              :class="{ 'body-open': chatShow }"
+            >
               <div class="side-chat-head">
                 <span
                   class="side-chat-body-toggle"
@@ -112,35 +126,24 @@
                   </div>
                 </form>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div class="grid-container" id="videos-container">
-          <!-- <vue-webrtc ref="webrtc"
-                      width="100%"
-                      :roomId="roomId"
-                      v-on:joined-room="logEvent"
-                      v-on:left-room="logEvent"
-                      v-on:open-room="logEvent"
-                      v-on:share-started="logEvent"
-                      v-on:share-stopped="logEvent"
-                      @error="onError" /> -->
-            <videoChat>
-            </videoChat>
+        <div id="videos-container" class="grid-container">
+          <videoChat> </videoChat>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-  import { WebRTC } from "vue-webrtc";
-  import  videoChat  from "../components/video-chat";
-  export default {
-  components:{
-    'vue-webrtc' : WebRTC,
-    'videoChat' : videoChat 
+import videoChat from "../components/video-chat";
+import {bridge} from '../utils/bridge';
+export default {
+  mixins: [bridge],
+  components: {
+    videoChat: videoChat
   },
   data() {
     return {
@@ -148,11 +151,7 @@
       roomId: "public-room"
     };
   },
-  methods : {
-    
-  },
-  created(){
-    
-  }
+  created() {},
+  methods: {}
 };
 </script>
