@@ -249,6 +249,7 @@ export default {
         })
         .catch(e => {
           this.registerError = e.body.error;
+          alert(e);
         })
         .finally(e => {
           this.form.busy = false;
