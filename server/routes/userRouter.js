@@ -37,6 +37,7 @@ function routes(User, passport) {
     }
     User.find({ email: req.body.email }, (err, user) => {
       if (user.length > 0 || err !== null) {
+        console.log("email not available");
         return res
           .status(401)
           .json({ error: "email not available", success: false });
