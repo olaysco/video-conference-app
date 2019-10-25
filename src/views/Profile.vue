@@ -2,32 +2,33 @@
   <div>
     <div class="container-fluid d-flex flex-column">
       <div class="row nav-section p-2">
-        <div class="col-md-12 d-flex h-100 align-items-center">
+        <div class="col-md-12 d-flex h-100 justify-content-between">
           <div class="user-avatar mr-2">
             <img
               src="../assets/female.jpg"
               alt="user-avatar"
-              class="user-avatar-img"
-            />
+              class="user-avatar-img mr-2"
+            /><span>Hi, {{user.name}}</span>
           </div>
-          <span>Hi, Mr. Uyi</span>
+          
+          <router-link to="/logout"><i class="fa fa-power-off"></i> Logout</router-link>
         </div>
       </div>
       <div class="row body ">
-        <div class="actions d-flex">
+        <div class="actions d-flex" v-if="showLess">
           <div class="d-flex flex-column align-items-center">
             <div class="join d-flex justify-content-center align-items-center">
               <img src="@/assets/user-con.svg" alt="users" />
             </div>
-            <a href="#" data-toggle="modal" data-target="#customModal"
-              >Join a meeting</a
+            <router-link to="/home/join" 
+              >Join a meeting</router-link
             >
           </div>
           <div class="d-flex flex-column align-items-center">
             <div class="start d-flex justify-content-center align-items-center">
               <img src="@/assets/vid.svg" alt="start" />
             </div>
-            <a href="#">Host Meeting</a>
+            <router-link to="/home/host">Host Meeting</router-link>
           </div>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -35,7 +36,7 @@
             >
               <img src="@/assets/calendar.svg" alt="calendar" />
             </div>
-            <a href="#">My Schedule</a>
+            <a href="#" @click="showLess = false">My Schedule</a>
           </div>
         </div>
       </div>
@@ -80,11 +81,14 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      showLess: true,
+    };
   },
+  created() { },
   computed: {
     user() {
-      return this.$store.state.user;
+      return JSON.parse(localStorage.getItem("user"));
     }
   }
 };
@@ -153,5 +157,14 @@ export default {
 img.h-24p {
   height: 24px;
   width: auto;
+}
+.h-fill{
+  height: calc( 100vh - 120px );;
+}
+.join-nav{
+  background-color: #0089ff;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
 }
 </style>

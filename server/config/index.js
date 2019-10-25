@@ -5,7 +5,8 @@ const CONFIG = {
   REDIS_HOST: process.env.REDIS_HOST || "localhost",
   REDIS_PORT: process.env.REDIS_PORT || 6379,
   ORIGINS: process.env.ORIGINS || "*:*",
-  KEY: "unique"
+  KEY: "unique",
+  appSecret: "vdconfsecretapplication"
 };
 
 module.exports = CONFIG;

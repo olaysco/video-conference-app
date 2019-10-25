@@ -20,11 +20,12 @@
       </div>
 
       <div
-        class="signUpForm w3-content col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center"
+        class="signUpForm w3-content col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center text-white"
       >
         <span v-if="$v.$error">
           Ensure all fields are filled correctly
         </span>
+        <span v-if="registerError" v-text="registerError"></span>
         <div
           v-if="!showSecondForm"
           class="signUpForm w3-content col-md-12 col-sm-12 d-flex flex-column justify-content-center align-items-center"
@@ -33,13 +34,13 @@
             <div class="form-group">
               <input
                 id="title"
-                v-model.trim="$v.form.organisation.$model"
+                v-model.trim="$v.form.name.$model"
                 type="text"
-                name="organisationName"
+                name="nameName"
                 placeholder="Organization name"
                 class="form-control bs-input"
                 style="width: 300px; border-radius: 20px; padding: 20px;"
-                :class="{ 'is-invalid': $v.form.organisation.$error }"
+                :class="{ 'is-invalid': $v.form.name.$error }"
               />
               <div class="invalid-feedback">
                 Field must contain at least 2 characters
@@ -191,23 +192,25 @@ import {
   email,
   alphaNum
 } from "vuelidate/lib/validators";
+import { SERVER_URL } from '../utils/cofig';
 export default {
   data() {
     return {
       form: {
-        organisation: "",
+        name: "",
         email: "",
         password: "",
         username: "",
         agree: "",
         busy: false
       },
-      showSecondForm: false
+      showSecondForm: false,
+      registerError: false
     };
   },
   validations: {
     form: {
-      organisation: {
+      name: {
         required,
         minLength: minLength(4)
       },
@@ -231,19 +234,21 @@ export default {
       this.$v.form.$touch();
       if (this.$v.form.$error) return;
       this.form.busy = true;
-      console.log(this.form.busy);
       this.$store.dispatch("togglePageBusy");
+      this.registerError = false;
       this.$http
-        .post("https://vidconf-api.herokuapp.com/user", this.form)
+        .post(`${SERVER_URL}/api/register`, this.form)
         .then(response => {
           if (response.ok) {
             alert("registeration successful");
-            this.$store.dispatch("setUser", response.data.data.user);
-            this.$router.push({ path: "host", query: { newuser: true } });
+            let k = {user: response.body.data.user, token: response.body.data.token};
+            this.$store.dispatch("setUser", k);
+            this.$router.push({ path: "profile", query: { newuser: true } });
+            console.log(k);
           }
         })
         .catch(e => {
-          console.log(e);
+          this.registerError = e.body.error;
         })
         .finally(e => {
           this.form.busy = false;

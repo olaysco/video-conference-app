@@ -450,3 +450,6 @@ body{
     text-align: center;
     padding: 5px 2px;
   }
+  .ant-layout-sider, .ant-menu{
+    background-color: #122383 !important;
+  }

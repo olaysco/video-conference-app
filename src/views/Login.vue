@@ -165,9 +165,10 @@ export default {
       this.$http
         .post(`${SERVER_URL}/api/login`, this.form)
         .then(response => {
-          console.log(response);
-            // this.$store.dispatch("setUser", response.data.data.user);
-            // this.$router.push({path:"host", query: {newuser: true}});
+          if (response.ok) {
+            this.$store.dispatch("setUser", {user: response.body.data.user, token: response.body.data.token});
+            this.$router.push({path:"profile"});
+          }
         })
         .catch(e => {
           this.loginError = true;

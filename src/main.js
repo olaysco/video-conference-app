@@ -7,6 +7,11 @@ import store from "./store";
 import { url } from "./utils/cofig";
 import LoadScript from "vue-plugin-load-script";
 import Popover from "vue-js-popover";
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
+var VueCookie = require("vue-cookie");
+
+Vue.use(Antd);
 
 Vue.use(Popover, { tooltip: true });
 //vue script loader
@@ -20,6 +25,9 @@ Vue.use(VueResource);
 
 // Vuelidate for validation
 Vue.use(Vuelidate);
+
+// Vuecookie for inapp temp storage
+Vue.use(VueCookie);
 
 new Vue({
   router,
