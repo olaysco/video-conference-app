@@ -6,7 +6,7 @@
               src="../assets/female.jpg"
               alt="user-avatar"
               class="user-avatar-img mr-2"
-            /><span class="text-white">
+            /><span class="text-white" v-show="!collapsed">
               {{user.name}}
             </span>
       </div>
