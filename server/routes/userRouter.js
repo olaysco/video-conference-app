@@ -30,6 +30,7 @@ function routes(User, passport) {
       isNullOrundefined(req.body.password) ||
       isNullOrundefined(req.body.username)
     ) {
+      console.log(req);
       return res
         .status(401)
         .json({ error: "all fields are important", success: false });
@@ -45,6 +46,8 @@ function routes(User, passport) {
         const user = new User(req.body);
         user.save(err => {
           if (err) {
+            console.log(err);
+            console.log("unable to save to database");
             return res.status(401).json(err);
           }
           delete user.password;
