@@ -6,7 +6,9 @@
               src="../assets/female.jpg"
               alt="user-avatar"
               class="user-avatar-img mr-2"
-            /><span class="text-white">Olayiwola Odunsi</span>
+            /><span class="text-white">
+              {{user.name}}
+            </span>
       </div>
       <a-menu theme="dark" mode="inline" :defaultSelectedKeys="[key]" class="sidemenu">
         <a-menu-item key="1">
@@ -65,7 +67,10 @@
     computed:{
       currentPath: ()=>{
         return window.location.pathname;
-      }
+      },
+      user() {
+      return JSON.parse(localStorage.getItem("user"));
+    }
     },
     created(){
       console.log(this.key = this.navKeys[this.currentPath]);
